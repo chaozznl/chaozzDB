@@ -11,10 +11,10 @@ INSTALLATION
 
 Place chaozzDB.php in a folder of your project. Next open chaozzDB.php and find the line that reads “// settings”. Here you can change the following settings:
 
-$chaozzdb_delimiter = “\t”;
+{ $chaozzdb_delimiter = “\t”; }
 By default the delimiter is a TAB (\t). Please note that changing the delimiter is tricky. It needs to be unique, and nothing a user could type in a free form field. TAB is the best option.
 
-$chaozzdb_location = “./db/”;
+{ $chaozzdb_location = “./db/”; }
 This is the folder that holds your database files, relative to the script you include chaozzDB in. This folder needs to be chmod’ded to 777
 
 For APACHE users there is a .htaccess file in the DB folder that prevents direct access to the database files (a vulnerability of version 1.2 and lower).
