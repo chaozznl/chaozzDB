@@ -1,5 +1,5 @@
 # chaozzDB – A flatfile database system
-(c)2008-2019 by E. Wenners, The Netherlands
+(c)2008-2019 by E. Wenners, The Netherlands - chaozz.nl
 
 ## ABOUT
 
@@ -50,13 +50,12 @@ SELECT, FROM, WHERE, DELETE, UPDATE, VALUES, INSERT
 
 So for a user table you could create the following fields:
 
-*id	name	password	email	group_id*
+```id	name	password	email	group_id```
 
 After this line, press enter, so the cursor is on a new empty line.
 
 Now save the file, and you’re done.
 
- 
 
 ## NOTE ABOUT TABLE RELATIONS
 
@@ -75,48 +74,50 @@ for ($a = 0; $a < $record_count; $a++)
 }
 ```
 
-NOTE ABOUT STORING DATA
 
-Everything you store in chaozzDB must first be encoded. The method I use, and which works best for me:
+## NOTE ABOUT STORING DATA
 
-For Integers, use: intval($value);
-Every other value, use: urlencode($value);
+In this version of chaozzDB, everything you store in the database must first be encoded. The method I use, and which works best for me:
+
+*For Integers, use: intval($value);
+Every other value, use: urlencode($value);*
 
 Here is a short example:
-
+```
 $car = urlencode("Mercedes, convertible"); // this comma would mess up the Query if we didn't encode it
 $result = chaozzdb_query ("UPDATE driver SET car = $car WHERE id = 1");
+```
 To read this value back:
-
+```
 $cars = chaozzdb_query ("SELECT * FROM driver WHERE id = 1");
 echo "Driver 1 drives a ".urldecode($cars[0]['car']);
- 
+```
 
-Use chaozzDB in your PHP script
+
+## Use chaozzDB in your PHP script
 
 To use the database in PHP add this line to the page you want to use it on:
 
-require_once("./chaozzDB.php");
- 
+```require_once("./chaozzDB.php");```
 
-chaozzDB queries
+
+## chaozzDB queries
 
 chaozzDB uses a format very simular to SQL.
 
 It has the following commands (commands between [ ] are optional):
 
- 
-
-SELECT (FROM, [WHERE], [ORDER BY] and [LIMIT])
+### SELECT (FROM, [WHERE], [ORDER BY] and [LIMIT])
 Return value: multidimensional array or an empty array (empty array means an error occured)
 
-Examples:
-
+*Examples:*
+```
 SELECT * FROM user
 SELECT id, name FROM user WHERE group_id > 1
 SELECT id FROM user WHERE name ~= admi ORDER BY name DESC LIMIT 1
-PHP example:
-
+```
+*PHP example:*
+```
 $result = chaozzdb_query ("SELECT id, name FROM user WHERE group_id = 1");
 if (count($result) > 0)
 {
@@ -124,68 +125,72 @@ if (count($result) > 0)
 	for ($i = 0; $i < count($result); $i++)
 		echo "The user called ".urldecode($result[$i]['name'])." has the ID {$result[$i]['id']}";
 }
+```
+
 NOTE: It’s probably best to use SELECT * instead of a selection of fields. The selection actually requires extra code to execute, while tiny. The only reason is perhaps to save memory, as the array returned will be smaller.
 
- 
-
-DELETE (FROM and [WHERE])
+### DELETE (FROM and [WHERE])
 Return value: true or false (false means an error occured)
 
-Examples:
-
+*Examples:*
+```
 DELETE FROM user
 DELETE FROM user WHERE name != administrator
-PHP example:
+```
+*PHP example:*
+```
 $name = "Gates, Bill";
 $name = urlencode($name);
 $result = chaozzdb_query ("DELETE FROM user WHERE name != $name");
- 
+```
 
-UPDATE (SET and [WHERE])
+
+### UPDATE (SET and [WHERE])
 Return value: true or false (false means an error occured)
 
-Examples:
-
+*Examples:*
+```
 UPDATE user SET name = bill, group_id = 2 WHERE id > 1
-PHP example:
-
+```
+*PHP example:*
+```
 $name = "Gates, Bill";
 $name = urlencode($name);
 $result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id > 1");
- 
+```
 
-INSERT (INTO and VALUES)
+### INSERT (INTO and VALUES)
 Return value: ID of new record or 0 (0 means an error occured)
 
-examples:
-
+*Examples:*
+```
 INSERT INTO user VALUES (chaozz, password123, 1)
-PHP example:
-
+```
+*PHP example:*
+```
 $name = urlencode('Gates, Bill');
 $password = chaozzdb_password ($password);
 $group_id = 1;
 $result = chaozzdb_query ("INSERT INTO user VALUES $name, $password, $group_id");
 echo "The ID of this new user is $result";
+```
+
 NOTE: chaozzdb_password() can hash passwords for you using the $db_salt setting. To verify a user, you need to feed the password typed in a login form to the same function chaozzdb_password() and compare that to the stored password.
 
 In the WHERE-part of your query you can use the following comparissons:
-
+```
 WHERE user_id = 10 // user_id equals 10
 user_id !=10 // user_id does not equal 10
 name ~= admin // name contains the word admin (best practice is to urlencode this value if it's not an integer)
 user_id < 10 // user_id is smaller then 10
 user_id > 10 // user_id is bigger then 10
-It can however only handle ONE condition in this version.
+```
 
- 
+NOTE: It can however only handle ONE condition in this version.
 
-FINAL NOTES
+
+## FINAL NOTES
 
 There is not much error checking going on. chaozzDB will check for the existance of database files, and if there are any records present, but it does not check for bad queries. Use the proper syntax as explained in this document.
 
-See licence.txt for more details about this product’s licence.
-If you find it useful, perhaps you can show appreciation by making a small donation.
-
-If you have questions or suggestions, contact me.
-Elmar Wenners – 2019 The Netherlands – www.chaozz.nl
+chaozz.nl
