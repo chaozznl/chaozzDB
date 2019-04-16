@@ -1,0 +1,11 @@
+chaozzDB2.3
+* the WHERE part in the UPDATE query was not optional, now it is.
+
+chaozzDB2.2
+* fixed bug where an empty table (just a header, no records) would cause an error.
+
+chaozzDB2.1
+* first public release.
+
+chaozzDB2.0
+* complete rewrite
