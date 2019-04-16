@@ -1,13 +1,12 @@
-chaozzDB – A flatfile database system
+# chaozzDB – A flatfile database system
 (c)2008-2019 by E. Wenners, The Netherlands
 
-ABOUT
+## ABOUT
 
 I originally wrote this flat file ‘database engine’ in a one-night programming session in 2008. I was fiddling around with file handling in PHP and chaozzDB was a sort of proof of concept. Eleven years later, in 2019, I rewrote the database engine from scratch, adding a better query language, better structure and better reliability.
 
  
-
-INSTALLATION
+## INSTALLATION
 
 Place chaozzDB.php in a folder of your project. Next open chaozzDB.php and find the line that reads “// settings”. Here you can change the following settings:
 
@@ -20,26 +19,25 @@ This is the folder that holds your database files, relative to the script you in
 For APACHE users there is a .htaccess file in the DB folder that prevents direct access to the database files (a vulnerability of version 1.2 and lower).
 IIS users read this: https://docs.microsoft.com/en-us/iis/manage/configuring-security/use-request-filtering
 
-$chaozzdb_extension = “.tsv”;
+```$chaozzdb_extension = “.tsv”;```
 This is the default file extention for the database files. Each file is a database table. Files need to be CHMODded to 666.
 
-$chaozzdb_salt = “some random string”;
+```$chaozzdb_salt = “some random string”;```
 If you want to store passwords in your database, you should hash them. chaozzDB has a function built in for this, and that function uses this salt.
 
-$chaozzdb_max_records = 999;
+```$chaozzdb_max_records = 999;```
 Here you set the maximum number of records a SELECT-query will return.
 
-$chaozzdb_last_error = “”;
+```$chaozzdb_last_error = “”;```
 This variable can be called to display the last error produced by chaozzDB.
 
- 
 
-SETTING UP YOUR DATABASE
+## SETTING UP YOUR DATABASE
 
 To create a table, you need to create a text file (extension must match $db_extension) in the database folder ($db_location). The name of the textfile will be the table name.
-For example:
 
-user.tsv
+For example:
+*user.tsv*
 
 The first line of a table will define the table fields, seperated by the delimiter (default: TAB).
 
@@ -52,18 +50,21 @@ SELECT, FROM, WHERE, DELETE, UPDATE, VALUES, INSERT
 
 So for a user table you could create the following fields:
 
-id	name	password	email	group_id
+*id	name	password	email	group_id*
+
 After this line, press enter, so the cursor is on a new empty line.
+
 Now save the file, and you’re done.
 
  
 
-NOTE ABOUT TABLE RELATIONS
+## NOTE ABOUT TABLE RELATIONS
 
 The previous version of chaozzDB had a function called ‘auto-join’. For the sake of keeping the code organized this new version no longer has this feature. This does mean you need to understand databases to create relations, and that you have to do more queries.
 
 For example: if you have a table that has one or several records related to a user, make sure that table has a field called user_id. This was you can query like this:
 
+```
 $user_result = chaozzdb_query ("SELECT id, name FROM user WHERE id = 4");
 $record_count = count($user_result);
 for ($a = 0; $a < $record_count; $a++)
@@ -72,7 +73,7 @@ for ($a = 0; $a < $record_count; $a++)
 	$car_result = chaozzdb_query ("SELECT id, brand FROM car WHERE user_id = $user_id");
 	echo "This user drives a {$car_result[0]['brand']}");
 }
- 
+```
 
 NOTE ABOUT STORING DATA
 
