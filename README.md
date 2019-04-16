@@ -11,21 +11,26 @@ I originally wrote this flat file ‘database engine’ in a one-night programmi
 Place chaozzDB.php in a folder of your project. Next open chaozzDB.php and find the line that reads “// settings”. Here you can change the following settings:
 
 *$chaozzdb_delimiter = “\t”;*
+
 By default the delimiter is a TAB (\t). Please note that changing the delimiter is tricky. It needs to be unique, and nothing a user could type in a free form field. TAB is the best option.
 
 *$chaozzdb_location = “./db/”;*
+
 This is the folder that holds your database files, relative to the script you include chaozzDB in. This folder needs to be chmod’ded to 777
 
 For APACHE users there is a .htaccess file in the DB folder that prevents direct access to the database files (a vulnerability of version 1.2 and lower).
 IIS users read this: https://docs.microsoft.com/en-us/iis/manage/configuring-security/use-request-filtering
 
 *$chaozzdb_extension = “.tsv”;*
+
 This is the default file extention for the database files. Each file is a database table. Files need to be CHMODded to 666.
 
 *$chaozzdb_salt = “some random string”;*
+
 If you want to store passwords in your database, you should hash them. chaozzDB has a function built in for this, and that function uses this salt.
 
 *$chaozzdb_max_records = 999;*
+
 Here you set the maximum number of records a SELECT-query will return.
 
 $chaozzdb_last_error = “”;
@@ -42,15 +47,21 @@ For example:
 The first line of a table will define the table fields, seperated by the delimiter (default: TAB).
 
 There are some things you need to keep in mind:
+
 1. The first field **must** always be ‘id’
+
 2. The cursor **must** always be on a new empty line (so press ENTER after you entered that first line)
+
 3. The field names should be lowercase and alphanumeric: id, name, group_id, field9, etc
+
 4. Field names can not contain these words in uppercase:
+
 SELECT, FROM, WHERE, DELETE, UPDATE, VALUES, INSERT
 
 So for a user table you could create the following fields:
 
 *id	name	password	email	group_id*
+
 After this line, press enter, so the cursor is on a new empty line.
 Now save the file, and you’re done.
 
@@ -62,12 +73,19 @@ The previous version of chaozzDB had a function called ‘auto-join’. For the 
 For example: if you have a table that has one or several records related to a user, make sure that table has a field called user_id. This was you can query like this:
 
 *$user_result = chaozzdb_query ("SELECT id, name FROM user WHERE id = 4");
+
 $record_count = count($user_result);
+
 for ($a = 0; $a < $record_count; $a++)
+
 {
+
 	$user_id = $user_result[$a]['id'];
+	
 	$car_result = chaozzdb_query ("SELECT id, brand FROM car WHERE user_id = $user_id");
+	
 	echo "This user drives a {$car_result[0]['brand']}");
+	
 }*
  
 
