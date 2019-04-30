@@ -312,7 +312,7 @@
 								if ($record_array[$a][$where_field] > $where_value) $matches_where_condition = true;
 								break;
 							case "~=":
-								if (strpos($record_array[$a][$where_field], $where_value) !== false) $matches_where_condition = true;
+								if (stripos($record_array[$a][$where_field], $where_value) !== false) $matches_where_condition = true;
 								break;
 						}
 					}
