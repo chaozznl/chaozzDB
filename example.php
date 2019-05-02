@@ -1,7 +1,24 @@
 <?php
 	include_once ("./chaozzDB.php"); // include chaozzdb
 	
+	echo "<strong>SELECT name FROM user WHERE name = chaozz AND id = 1</strong>";
+	echo "<br>";
+	$user = chaozzdb_query ("SELECT name FROM user WHERE name = chaozz AND id = 1");
+	print_r ($user);
+	echo "<hr>";
+	
+	echo "<strong>SELECT name FROM user WHERE name = chaozz OR name = rampage</strong>";
+	echo "<br>";
+	$user = chaozzdb_query ("SELECT name FROM user WHERE name = chaozz OR name = rampage");
+	print_r ($user);
+	echo "<hr>";
+	
+	echo "<strong>SELECT * FROM user</strong>";
+	echo "<br>";
 	$user = chaozzdb_query ("SELECT * FROM user"); // select all fields from all users
+	print_r ($user);
+	echo "<hr>";
+	
 	if (count($user) == 0)
 		echo "No users found."; // no users found
 	else

@@ -268,7 +268,18 @@
 		// ------------------------
 		if ($query_where !== null) 
 		{
-			$query_where = preg_split('/AND/', $query_where, -1, PREG_SPLIT_NO_EMPTY); // you can have multiple WHERE conditions
+			// you can have multiple conditions in your where statement. you can use either all AND or all OR. we still split if we don't find either, because $query_where needs to be an array
+			if (strpos($query_where, "OR") !== false)
+			{
+				$query_where = preg_split('/OR/', $query_where, -1, PREG_SPLIT_NO_EMPTY); // split into array on the word OR
+				$where_operator = "OR"; // match at least one
+			}
+			else
+			{
+				$query_where = preg_split('/AND/', $query_where, -1, PREG_SPLIT_NO_EMPTY); // split into array on the word AND
+				$where_operator = "AND"; // match all
+			}
+				
 			$query_where = array_map ('trim', $query_where); // trim the array values
 			
 			for ($i = 0; $i < count ($query_where); $i ++)
@@ -325,8 +336,13 @@
 								break;
 						}
 					}
-					if (count ($query_where) == $part_match)
-						$matches_where_condition = true; // all where conditions matched!
+					// if the operator is AND, it needs to match all conditions
+					if ($where_operator == "AND" && count ($query_where) == $part_match)
+						$matches_where_condition = true; 
+					
+					// if the operator is OR, it needs to match at least one condition
+					if ($where_operator == "OR" && $part_match > 0)
+						$matches_where_condition = true;
 				}
 				else
 					$matches_where_condition = true; // default WHERE condition is id > 0
