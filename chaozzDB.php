@@ -67,7 +67,7 @@
 		if ($query_action == "DELETE")
 		{
 			// split the query
-			$query_part = preg_split ('/DELETE FROM|WHERE/', $query, -1, PREG_SPLIT_NO_EMPTY); // split query on the commands
+			$query_part = preg_split ('/DELETE FROM | WHERE /', $query, -1, PREG_SPLIT_NO_EMPTY); // split query on the commands
 			$query_part = array_map ('trim', $query_part); // trim the array values
 
 			// extract the info we need
@@ -93,7 +93,7 @@
 		if ($query_action == "INSERT")
 		{
 			// split the query
-			$query_part = preg_split ('/INSERT INTO|VALUES/', $query, -1, PREG_SPLIT_NO_EMPTY); // split query on the commands
+			$query_part = preg_split ('/INSERT INTO | VALUES /', $query, -1, PREG_SPLIT_NO_EMPTY); // split query on the commands
 			$query_part = array_map ('trim', $query_part); // trim the array values
 
 			// extract the info we need
@@ -116,7 +116,7 @@
 		if ($query_action == "UPDATE")
 		{
 			// split the query
-			$query_part = preg_split ('/UPDATE|SET|WHERE/', $query, -1, PREG_SPLIT_NO_EMPTY); // split query on the commands
+			$query_part = preg_split ('/UPDATE | SET | WHERE /', $query, -1, PREG_SPLIT_NO_EMPTY); // split query on the commands
 			$query_part = array_map ('trim', $query_part); // trim the array values
 
 			// extract the info we need
@@ -151,7 +151,7 @@
 		if ($query_action == "SELECT")
 		{
 			// split the query
-			$query_part = preg_split ('/SELECT|FROM|WHERE|ORDER BY|LIMIT/', $query, -1, PREG_SPLIT_NO_EMPTY); // split query on the commands
+			$query_part = preg_split ('/SELECT | FROM | WHERE | ORDER BY | LIMIT /', $query, -1, PREG_SPLIT_NO_EMPTY); // split query on the commands
 			$query_part = array_map ('trim', $query_part); // trim the array values
 			
 			// mandetory parts
@@ -161,13 +161,13 @@
 			// optional parts
 			if (strpos($query, "WHERE") !== false)
 			{
-				$query_part = preg_split('/WHERE|ORDER BY|LIMIT/', $query, -1, PREG_SPLIT_NO_EMPTY);
+				$query_part = preg_split('/ WHERE | ORDER BY | LIMIT /', $query, -1, PREG_SPLIT_NO_EMPTY);
 				$query_part = array_map ('trim', $query_part); // trim the array values
 				$query_where = $query_part[1];
 			}
 			if (strpos($query, "ORDER BY") !== false)
 			{
-				$query_part = preg_split('/ORDER BY|LIMIT/', $query, -1, PREG_SPLIT_NO_EMPTY);
+				$query_part = preg_split('/ ORDER BY | LIMIT /', $query, -1, PREG_SPLIT_NO_EMPTY);
 				$query_part = array_map ('trim', $query_part); // trim the array values
 				$query_order = $query_part[1];
 			}
