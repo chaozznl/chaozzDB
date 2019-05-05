@@ -268,19 +268,37 @@
 		// ------------------------
 		if ($query_where !== null) 
 		{
-			$where_part = preg_split('/=|!=|>|<|~=/', $query_where); // split the WHERE part of the query on the condition, which is either = , != , < , > OR ~=
-			$where_part = array_map('trim', $where_part); // trim the result
-			$where_field = $where_part[0]; // field1
-			$where_value = trim($where_part[1], "'"); // value1
+			// you can have multiple conditions in your where statement. you can use either all AND or all OR. we still split if we don't find either, because $query_where needs to be an array
+			if (strpos($query_where, "OR") !== false)
+			{
+				$query_where = preg_split('/OR/', $query_where, -1, PREG_SPLIT_NO_EMPTY); // split into array on the word OR
+				$where_operator = "OR"; // match at least one
+			}
+			else
+			{
+				$query_where = preg_split('/AND/', $query_where, -1, PREG_SPLIT_NO_EMPTY); // split into array on the word AND
+				$where_operator = "AND"; // match all
+			}
+				
+			$query_where = array_map ('trim', $query_where); // trim the array values
 			
-			$dummy = preg_match('/=|!=|>|<|~=/', $query_where, $matches); // search the condition
-			$where_condition = trim($matches[0]); // trim the result
+			for ($i = 0; $i < count ($query_where); $i ++)
+			{
+				$where_part = preg_split('/=|!=|>|<|~=/', $query_where[$i]); // split the WHERE part of the query on the condition, which is either = , != , < , > OR ~=
+				$where_part = array_map('trim', $where_part); // trim the result
+				$dummy = preg_match('/=|!=|>|<|~=/', $query_where[$i], $matches); // search the condition
+				
+				// store the different parts of this WHERE statement field, condition and value
+				$where_field[] = $where_part[0]; // field1
+				$where_value[] = trim($where_part[1], "'"); // value1
+				$where_condition[] = trim($matches[0]); // trim the result
+			}
 		}
 		else
 		{
-			$where_field = "id";
-			$where_value = 0;
-			$where_condition = ">";
+			$where_field[] = "id";
+			$where_value[] = 0;
+			$where_condition[] = ">";
 		}
 		
 		// ------------------------
@@ -292,33 +310,42 @@
 			for ($a = 0; $a < $record_count; $a++)
 			{
 				// SEE IF WE MATCH THE WHERE PART OF THE QUERY, IF ANY
-				if ($query_where != null) 
+				if (count($query_where) > 0) 
 				{
-					$matches_where_condition = false; // lets presume we don't have a match on the WHERE field
-					for ($i = 0; $i < count($record_array[$a]); $i++)
+					$matches_where_condition = false; // not all where parts were a match (lets presume that for now)
+					$part_match = 0; // zero matches
+					
+					for ($j = 0; $j < count($query_where); $j++)
 					{
-						switch ($where_condition) 
+						switch ($where_condition[$j]) 
 						{
 							case "=":
-								if ($record_array[$a][$where_field] == $where_value) $matches_where_condition = true;
+								if ($record_array[$a][$where_field[$j]] == $where_value[$j]) $part_match++;
 								break;
 							case "!=":
-								if ($record_array[$a][$where_field] != $where_value) $matches_where_condition = true;
+								if ($record_array[$a][$where_field[$j]] != $where_value[$j]) $part_match++;
 								break;
 							case "<":
-								if ($record_array[$a][$where_field] < $where_value) $matches_where_condition = true;
+								if ($record_array[$a][$where_field[$j]] < $where_value[$j]) $part_match++;
 								break;
 							case ">":
-								if ($record_array[$a][$where_field] > $where_value) $matches_where_condition = true;
+								if ($record_array[$a][$where_field[$j]] > $where_value[$j]) $part_match++;
 								break;
 							case "~=":
-								if (stripos($record_array[$a][$where_field], $where_value) !== false) $matches_where_condition = true;
+								if (stripos($record_array[$a][$where_field[$j]], $where_value[$j]) !== false) $part_match++;
 								break;
 						}
 					}
+					// if the operator is AND, it needs to match all conditions
+					if ($where_operator == "AND" && count ($query_where) == $part_match)
+						$matches_where_condition = true; 
+					
+					// if the operator is OR, it needs to match at least one condition
+					if ($where_operator == "OR" && $part_match > 0)
+						$matches_where_condition = true;
 				}
 				else
-					$matches_where_condition = true;
+					$matches_where_condition = true; // default WHERE condition is id > 0
 				
 				
 				// if the record matches the WHERE part of the query, return the values supplied in SELECT part
