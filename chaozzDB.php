@@ -226,7 +226,15 @@
 			//$line = str_replace(PHP_EOL,"", $line); // remove End Of Line (EOL)
 			$line = preg_replace("/[\n\r]/","",$line);
 			$values = explode($chaozzdb_delimiter, $line); // split on the delimiter
-			$record_array[] = array_combine($field_name, $values); // create a multi dimensional array of key's and values of this record
+			
+			$test_array = @array_combine($field_name, $values); // create a multi dimensional array of key's and values of this record
+			if (!$test_array)
+			{
+				chaozzdb_error ("ERROR", "Error occured when reading line $records_read in file $db_filename ($line)");
+				continue;
+			}
+			else $record_array[] = $test_array;
+			
 			$records_read++; // count read records
 		}	
 		fclose($db_file);
