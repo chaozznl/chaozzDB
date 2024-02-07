@@ -114,8 +114,7 @@ $result = chaozzdb_query ("UPDATE driver SET car = $car WHERE id = 1");</pre>
 > $cars = chaozzdb_query ("SELECT * FROM driver WHERE id = 1");  
 echo "Driver 1 drives a ".urldecode($cars[0]['car']);
 
-> SELECT (FROM, [WHERE], [ORDER BY] and [LIMIT])
-
+## SELECT (FROM, [WHERE], [ORDER BY] and [LIMIT])
 **Return value: multidimensional array or an empty array (empty array means an error occured)**
 
 **Examples:**
@@ -137,8 +136,7 @@ if (count($result) > 0)
 > [!TIP]
 > SELECT * is faster than SELECT field1, field2 because it executes less code. It does however return a bigger array, thus is less memory efficient.
 
-> DELETE (FROM and [WHERE])
-
+## DELETE (FROM and [WHERE])
 **Return value: true or false (false means an error occured)**
 
 **Examples:**
@@ -165,8 +163,7 @@ UPDATE user SET name = Bill Gates WHERE name = Bill OR name = Gates
 $name = urlencode($name);  
 $result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id &gt; 1");
 
-> INSERT (INTO and VALUES)
-
+## INSERT (INTO and VALUES)
 ***Return value: ID of new record or 0 (0 means an error occured)*
 
 **examples:**
