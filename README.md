@@ -43,7 +43,7 @@ Here are the requirements for a table:
 SELECT, FROM, WHERE, DELETE, UPDATE, VALUES, INSERT
 
 So for a user table you could create the following fields:
-> id	name	password	email	group_id
+> id&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;password&nbsp;&nbsp;&nbsp;email&nbsp;&nbsp;&nbsp;group_id
 
 After this line, press enter, so the cursor is on a new empty line.
 Now save the file, and you're done.
