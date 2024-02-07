@@ -134,7 +134,7 @@ if (count($result) > 0)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo "The user called ".urldecode($result[$i]['name'])." has the ID {$result[$i]['id']}";  
 }
 
-[!TIP]
+> [!TIP]
 > SELECT * is faster than SELECT field1, field2 because it executes less code. It does however return a bigger array, thus is less memory efficient.
 
 > DELETE (FROM and [WHERE])
