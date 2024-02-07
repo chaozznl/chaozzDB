@@ -53,7 +53,8 @@ To use the database in PHP add this line to the page you want to use it on:
 > require_once("./chaozzDB.php");
 
 ## Functions
-- **chaozzdb_password(); ** You can use this to salt passwords before storing them into chaozzdb. > $password = chaozzdb_password('ThisIsMyPassword123');
+- **chaozzdb_password(); ** You can use this to salt passwords before storing them into chaozzdb.
+> $password = chaozzdb_password('ThisIsMyPassword123');
 - **chaozzdb_error(); **Used internally by chaozzdb_query();
 - **chaozzdb_query(); **chaozzDB uses a format very simular to SQL. Its syntax is explained below.
 
