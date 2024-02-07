@@ -27,9 +27,9 @@ After running a query with *chaozzdb_query();*, you should check if *$chaozz_db_
 You need to create the database folder (*$db_location*) and CHMOD it to 777.
 To create a table, you need to create a text file (extension must match *$db_extension*) in the database folder and CHMOD it to 666. The name of the textfile will be the table name.
 > chaozzdb.php
-> [database] &lt;-- chmod 777
->   user.tsv &lt;-- chmod 666
->   device.tsv &lt;-- chmod 666
+[database] &lt;-- chmod 777
+    user.tsv &lt;-- chmod 666
+    device.tsv &lt;-- chmod 666
 
 Example table: *user.tsv*
 The first line of a table will define the table fields, seperated by the delimiter (*$chaozzdb_delimiter*).
@@ -65,13 +65,13 @@ If tables have a relation, there should be a field in one of the tables to empha
 
 Using this logic you can query like this:
 > $user_result = chaozzdb_query ("SELECT * FROM user WHERE id = 4");
-> $record_count = count($user_result);
-> for ($a = 0; $a &lt; $record_count; $a++)
-> {
-> 	$user_id = $user_result[$a]['id'];
-> 	$permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");
-> 	echo "Is this user and admin? {$permissions_result[0]['isadmin']}");
-> }
+$record_count = count($user_result);
+for ($a = 0; $a &lt; $record_count; $a++)
+{
+	$user_id = $user_result[$a]['id'];
+	$permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");
+	echo "Is this user and admin? {$permissions_result[0]['isadmin']}");
+}
 
 ## "WHERE" limitations
 For comparing numeric values you can use:
@@ -89,12 +89,12 @@ A limitation is that the WHERE part of queries only supports *either* the AND-op
 
 **Examples:**
 > WHERE user_id = 10 // user_id equals 10
-> WHERE user_id !=10 // user_id does not equal 10
-> WHERE name ~= admin // name contains the word admin (best practice is to urlencode this value if it's not an integer)
-> WHERE user_id &lt; 10 // user_id is smaller then 10
-> WHERE user_id &gt; 10 // user_id is bigger then 10
-> WHERE user_id &lt; 10 AND name = admin // use the AND operator to combine conditions
-> WHERE user_id = 1 OR user_id = 5 OR user_id &gt; 10 // user the OR operator to combine conditions</pre>
+WHERE user_id !=10 // user_id does not equal 10
+WHERE name ~= admin // name contains the word admin (best practice is to urlencode this value if it's not an integer)
+WHERE user_id &lt; 10 // user_id is smaller then 10
+WHERE user_id &gt; 10 // user_id is bigger then 10
+WHERE user_id &lt; 10 AND name = admin // use the AND operator to combine conditions
+WHERE user_id = 1 OR user_id = 5 OR user_id &gt; 10 // user the OR operator to combine conditions</pre>
 
 ## Encoding and decoding data
 Everything you write to or read back from chaozzDB must first be encoded or decoded.
@@ -104,11 +104,11 @@ For every other value, use: *urlencode();* for writing or use *urldecode();* fo
 
 **Write example:**
 > $car = urlencode("Mercedes, convertible"); // this comma would mess up the Query if we didn't encode it
-> $result = chaozzdb_query ("UPDATE driver SET car = $car WHERE id = 1");</pre>
+$result = chaozzdb_query ("UPDATE driver SET car = $car WHERE id = 1");</pre>
 
 **Read example:**
 > $cars = chaozzdb_query ("SELECT * FROM driver WHERE id = 1");
-> echo "Driver 1 drives a ".urldecode($cars[0]['car']);
+echo "Driver 1 drives a ".urldecode($cars[0]['car']);
 
 > SELECT (FROM, [WHERE], [ORDER BY] and [LIMIT])
 
@@ -116,19 +116,19 @@ For every other value, use: *urlencode();* for writing or use *urldecode();* fo
 
 **Examples:**
 > SELECT * FROM user
-> SELECT id, name FROM user WHERE group_id &gt; 1
-> SELECT id FROM user WHERE name ~= admi ORDER BY name DESC LIMIT 1
-> SELECT id FROM user WHERE id &gt; 1 AND id &lt; 10
-> SELECT id FROM user WHERE name = Bill OR name = Gates</pre>
+SELECT id, name FROM user WHERE group_id &gt; 1
+SELECT id FROM user WHERE name ~= admi ORDER BY name DESC LIMIT 1
+SELECT id FROM user WHERE id &gt; 1 AND id &lt; 10
+SELECT id FROM user WHERE name = Bill OR name = Gates</pre>
 
 **PHP example:**
 > $result = chaozzdb_query ("SELECT id, name FROM user WHERE group_id = 1");
-> if (count($result) > 0)
-> {
->	// loop through the results
->	for ($i = 0; $i &lt; count($result); $i++)
->		echo "The user called ".urldecode($result[$i]['name'])." has the ID {$result[$i]['id']}";
->}
+if (count($result) > 0)
+{
+    // loop through the results
+    for ($i = 0; $i &lt; count($result); $i++)
+	echo "The user called ".urldecode($result[$i]['name'])." has the ID {$result[$i]['id']}";
+}
 
 NOTE: SELECT * is faster than SELECT field1, field2 because it executes less code. It does however return a bigger array, thus is less memory efficient.
 
@@ -138,27 +138,27 @@ NOTE: SELECT * is faster than SELECT field1, field2 because it executes less cod
 
 **Examples:**
 > DELETE FROM user
-> DELETE FROM user WHERE name != administrator
-> DELETE FROM user WHERE id &gt; 1 AND id &lt; 10
-> DELETE FROM user WHERE name = Bill OR name = Gates</pre>
+DELETE FROM user WHERE name != administrator
+DELETE FROM user WHERE id &gt; 1 AND id &lt; 10
+DELETE FROM user WHERE name = Bill OR name = Gates</pre>
 
 **PHP example:**
 > $name = "Gates, Bill";
-> $name = urlencode($name);
-> $result = chaozzdb_query ("DELETE FROM user WHERE name != $name");
+$name = urlencode($name);
+$result = chaozzdb_query ("DELETE FROM user WHERE name != $name");
 
 ## UPDATE (SET and [WHERE])
 *Return value: true or false (false means an error occured)*
 
 **Examples:**
 > UPDATE user SET name = bill, group_id = 2 WHERE id &gt; 1
-> UPDATE user SET name = bill, group_id = 3 WHERE id &gt; 1 AND name = Hank
-> UPDATE user SET name = Bill Gates WHERE name = Bill OR name = Gates</pre>
+UPDATE user SET name = bill, group_id = 3 WHERE id &gt; 1 AND name = Hank
+UPDATE user SET name = Bill Gates WHERE name = Bill OR name = Gates</pre>
 
 **PHP example:**
 > $name = "Gates, Bill";
-> $name = urlencode($name);
-> $result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id &gt; 1");
+$name = urlencode($name);
+$result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id &gt; 1");
 
 
 **<span style="color: #ff6600;">INSERT (INTO and VALUES)</span>
@@ -169,10 +169,10 @@ NOTE: SELECT * is faster than SELECT field1, field2 because it executes less cod
 
 **PHP example:**
 > $name = urlencode('Gates, Bill');
-> $password = chaozzdb_password ($password);
-> $group_id = 1;
-> $result = chaozzdb_query ("INSERT INTO user VALUES $name, $password, $group_id");
-> echo "The ID of this new user is $result";</pre>
+$password = chaozzdb_password ($password);
+$group_id = 1;
+$result = chaozzdb_query ("INSERT INTO user VALUES $name, $password, $group_id");
+echo "The ID of this new user is $result";</pre>
 
 ## Error checking
 There is basic error checking in chaozzDB; it will check for the existence of database files, and if there are any records present, but it does not check for bad queries. Use the proper syntax as explained in this document.
@@ -182,7 +182,7 @@ If *$chaozzdb_last_error* is an empty string then the last query was succesful.
 
 **Examples:**
 > if ($chaozzdb_last_error != "")
-> {
-> 	echo "An error occured: $chaozzdb_last_error");
-> 	// panic here
->}
+{
+	echo "An error occured: $chaozzdb_last_error");
+	// panic here
+}
