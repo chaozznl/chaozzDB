@@ -53,12 +53,12 @@ To use the database in PHP add this line to the page you want to use it on:
 > require_once("./chaozzDB.php");
 
 ## Functions
-- **chaozzdb_password(); **  
+- **chaozzdb_password();**  
 You can use this to salt passwords before storing them into chaozzdb.
 > $password = chaozzdb_password('ThisIsMyPassword123');
-- **chaozzdb_error(); **  
+- **chaozzdb_error();**  
 Used internally by chaozzdb_query();
-- **chaozzdb_query(); **  
+- **chaozzdb_query();**  
 chaozzDB uses a format very simular to SQL. Its syntax is explained below.
 
 ## Table relations
@@ -68,14 +68,14 @@ If tables have a relation, there should be a field in one of the tables to empha
 **For example:** You have a table named *user*, and you have a second table that has one or several records related to a user, named *permissions*. The table permissions should then have a field called *user_id*.
 
 Using this logic you can query like this:
-> $user_result = chaozzdb_query ("SELECT * FROM user WHERE id = 4");
-$record_count = count($user_result);
-for ($a = 0; $a &lt; $record_count; $a++)
-{
-	$user_id = $user_result[$a]['id'];
-	$permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");
-	echo "Is this user and admin? {$permissions_result[0]['isadmin']}");
-}
+> $user_result = chaozzdb_query ("SELECT * FROM user WHERE id = 4");  
+$record_count = count($user_result);  
+for ($a = 0; $a &lt; $record_count; $a++)  
+{  
+	$user_id = $user_result[$a]['id'];  
+	$permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");  
+	echo "Is this user and admin? {$permissions_result[0]['isadmin']}");  
+}  
 
 ## "WHERE" limitations
 For comparing numeric values you can use:
