@@ -10,17 +10,17 @@ Place chaozzDB.php in a folder of your project. chaozzDB.php contains the follow
 
 - **$chaozzdb_delimiter = "\t";**  
 By default the delimiter is a TAB (\t).
-- **$chaozzdb_location = "./db/";**
+- **$chaozzdb_location = "./db/";**  
 This is the folder that holds your database files, relative to the script you include chaozzDB in.
 For APACHE users there is a .htaccess file in the DB folder that prevents direct access to the database files.*
 IIS users read (https://docs.microsoft.com/en-us/iis/manage/configuring-security/use-request-filtering)
-- **$chaozzdb_extension = ".tsv";**
+- **$chaozzdb_extension = ".tsv";**  
 This is the default file extention for the database files.
-- **$chaozzdb_salt = "some random string";**
+- **$chaozzdb_salt = "some random string";**  
 This salt is used by chaozzdb_password();. You must change this to a random string of your own.
-- **$chaozzdb_max_records = 999;**
+- **$chaozzdb_max_records = 999;**  
 Here you set the maximum number of records a SELECT-query will return.
-- **$chaozzdb_last_error = "";**
+- **$chaozzdb_last_error = "";**  
 After running a query with *chaozzdb_query();*, you should check if *$chaozz_db_last_error == ""*. If it's not, it contains the error description as a string.
 
 ## Setting up your database
