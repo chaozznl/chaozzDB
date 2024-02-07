@@ -3,7 +3,7 @@
 ## About
 I originally wrote this flat file 'database engine' as a proof of concept in 2008. This concept didn't include instructions for securing the database files (chmod of the db folder, and files) and was therefor deemed [unsafe](https://www.cvedetails.com/vulnerability-list/vendor_id-9608/product_id-17159/Chaozz-Chaozzdb.html)
 
-In 2019 I rewrote the database engine entirely, adding a better query language, structure and reliability. The manual you're currently reading also explains how to secure the database files. The files are on GitHub, so everyone can improve the engine.
+In 2019 I rewrote the database engine entirely, adding a better query language, structure and reliability. The manual you're currently reading also explains how to secure the database files.
 
 ## Install and config
 Place chaozzDB.php in a folder of your project. chaozzDB.php contains the following settings you can change:
