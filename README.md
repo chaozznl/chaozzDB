@@ -89,7 +89,8 @@ For comparing string values you can use:
 - name **!=** elmar *(SQL: name != 'elmar')*
 - name **~=** lma *(SQL: name LIKE '%lma%')*
 
-A limitation is that the WHERE part of queries only supports *either* the AND-operator or the OR-operator. They can not be mixed. Nor does it respect any left or right parenthesis.
+> [!TIP]
+> A limitation is that the WHERE part of queries only supports *either* the AND-operator or the OR-operator. They can not be mixed. Nor does it respect any left or right parenthesis.
 
 **Examples:**
 > WHERE user_id = 10 // user_id equals 10  
