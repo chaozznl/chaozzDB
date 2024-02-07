@@ -130,7 +130,7 @@ SELECT id FROM user WHERE name = Bill OR name = Gates
 if (count($result) > 0)  
 {  
 &nbsp;&nbsp;&nbsp;// loop through the results  
-&nbsp;&nbsp;&nbsp;for ($i = 0; $i &lt; count($result); $i++)
+&nbsp;&nbsp;&nbsp;for ($i = 0; $i &lt; count($result); $i++)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo "The user called ".urldecode($result[$i]['name'])." has the ID {$result[$i]['id']}";  
 }
 
