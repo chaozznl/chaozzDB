@@ -87,7 +87,7 @@ For comparing string values you can use:
 
 A limitation is that the WHERE part of queries only supports *either* the AND-operator or the OR-operator. They can not be mixed. Nor does it respect any left or right parenthesis.
 
-## Examples
+**Examples:**
 > WHERE user_id = 10 // user_id equals 10
 > WHERE user_id !=10 // user_id does not equal 10
 > WHERE name ~= admin // name contains the word admin (best practice is to urlencode this value if it's not an integer)
