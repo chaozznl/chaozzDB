@@ -8,7 +8,7 @@ In 2019 I rewrote the database engine entirely, adding a better query language, 
 ## Install and config
 Place chaozzDB.php in a folder of your project. chaozzDB.php contains the following settings you can change:
 
-- **$chaozzdb_delimiter = "\t";**
+- **$chaozzdb_delimiter = "\t";**  
 By default the delimiter is a TAB (\t).
 - **$chaozzdb_location = "./db/";**
 This is the folder that holds your database files, relative to the script you include chaozzDB in.
