@@ -72,7 +72,7 @@ Using this logic you can query like this:
 $record_count = count($user_result);  
 for ($a = 0; $a &lt; $record_count; $a++)  
 {  
-	$user_id = $user_result[$a]['id'];  
+&nbsp;$user_id = $user_result[$a]['id'];  
 	$permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");  
 	echo "Is this user and admin? {$permissions_result[0]['isadmin']}");  
 }  
