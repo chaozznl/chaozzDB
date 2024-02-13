@@ -42,7 +42,7 @@ Here are the requirements for a table:
 - Field names can **not contain** these words in uppercase: `SELECT, FROM, WHERE, DELETE, UPDATE, VALUES, INSERT`
 
 So for a user table you could create the following fields:
-> id&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;password&nbsp;&nbsp;&nbsp;email&nbsp;&nbsp;&nbsp;group_id
+`name` `password` `email` `group_id` (with the delimiter between them)
 
 After this line, press enter, so the cursor is on a new empty line.
 Now save the file, and you're done.
