@@ -6,9 +6,9 @@
 ## Install and config
 Place `chaozzDB.php` in a folder of your project. chaozzDB.php contains the following settings you can change:
 
-- **$chaozzdb_delimiter = "\t";**  
+- `$chaozzdb_delimiter = "\t";`  
 By default the delimiter is a TAB (\t).
-- **$chaozzdb_location = "./db/";**  
+- `$chaozzdb_location = "./db/";`  
 This is the folder that holds your database files, relative to the script you include chaozzDB in.
 For APACHE users there is a .htaccess file in the DB folder that prevents direct access to the database files.*
 IIS users read (https://docs.microsoft.com/en-us/iis/manage/configuring-security/use-request-filtering)
@@ -72,68 +72,78 @@ $user_result = chaozzdb_query ("SELECT * FROM user WHERE id = 4");
 $record_count = count($user_result);  
 for ($a = 0; $a &lt; $record_count; $a++)  
 {  
-&nbsp;&nbsp;&nbsp;$user_id = $user_result[$a]['id'];  
-&nbsp;&nbsp;&nbsp;$permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");  
-&nbsp;&nbsp;&nbsp;echo "Is this user and admin? {$permissions_result[0]['isadmin']}");  
+  $user_id = $user_result[$a]['id'];  
+  $permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");  
+  echo "Is this user and admin? {$permissions_result[0]['isadmin']}");  
 }  
 ```
 
 ## "WHERE" limitations
 For comparing numeric values you can use:
-- id **=** 1 *(SQL: id = 1)*
-- id **!=** 1 *(SQL: id != 1)*
-- id **&gt;** 1 *(SQL: id &gt; 1)*
-- id **&lt;** 1 *(SQL: id &lt; 1)*
+- `id = 1` *(SQL: id = 1)*
+- `id != 1` *(SQL: id != 1)*
+- `id &gt; 1` *(SQL: id &gt; 1)*
+- `id &lt;` 1 *(SQL: id &lt; 1)*
 
 For comparing string values you can use:
-- name **=** elmar *(SQL: name = 'elmar')*
-- name **!=** elmar *(SQL: name != 'elmar')*
-- name **~=** lma *(SQL: name LIKE '%lma%')*
+- `name = elmar` *(SQL: name = 'elmar')*
+- `name != elmar` *(SQL: name != 'elmar')*
+- `name ~= lma` *(SQL: name LIKE '%lma%')*
 
 > [!TIP]
 > A limitation is that the WHERE part of queries only supports *either* the AND-operator or the OR-operator. They can not be mixed. Nor does it respect any left or right parenthesis.
 
 **Examples:**
-> WHERE user_id = 10 // user_id equals 10  
+```
+ WHERE user_id = 10 // user_id equals 10  
 WHERE user_id !=10 // user_id does not equal 10  
 WHERE name ~= admin // name contains the word admin (best practice is to urlencode this value if it's not an integer)  
 WHERE user_id &lt; 10 // user_id is smaller then 10  
 WHERE user_id &gt; 10 // user_id is bigger then 10  
 WHERE user_id &lt; 10 AND name = admin // use the AND operator to combine conditions  
 WHERE user_id = 1 OR user_id = 5 OR user_id &gt; 10 // user the OR operator to combine conditions
+```
 
 ## Encoding and decoding data
 Everything you write to or read back from chaozzDB must first be encoded or decoded.
 
-For writing or reading Integers, use: *intval();*
-For every other value, use: *urlencode();* for writing or use *urldecode();* for reading.
+For writing or reading Integers, use: `intval();`
+For every other value, use: `urlencode();` for writing or use `urldecode();` for reading.
 
 **Write example:**
-> $car = urlencode("Mercedes, convertible"); // this comma would mess up the Query if we didn't encode it  
+```
+ $car = urlencode("Mercedes, convertible"); // this comma would mess up the Query if we didn't encode it  
 $result = chaozzdb_query ("UPDATE driver SET car = $car WHERE id = 1");</pre>
+```
 
 **Read example:**
-> $cars = chaozzdb_query ("SELECT * FROM driver WHERE id = 1");  
+```
+$cars = chaozzdb_query ("SELECT * FROM driver WHERE id = 1");  
 echo "Driver 1 drives a ".urldecode($cars[0]['car']);
+```
 
 ## SELECT (FROM, [WHERE], [ORDER BY] and [LIMIT])
 **Return value: multidimensional array or an empty array (empty array means an error occured)**
 
 **Examples:**
-> SELECT * FROM user  
+```
+SELECT * FROM user  
 SELECT id, name FROM user WHERE group_id &gt; 1  
 SELECT id FROM user WHERE name ~= admi ORDER BY name DESC LIMIT 1  
 SELECT id FROM user WHERE id &gt; 1 AND id &lt; 10  
 SELECT id FROM user WHERE name = Bill OR name = Gates
+```
 
 **PHP example:**
-> $result = chaozzdb_query ("SELECT id, name FROM user WHERE group_id = 1");  
+```
+$result = chaozzdb_query ("SELECT id, name FROM user WHERE group_id = 1");  
 if (count($result) > 0)  
 {  
-&nbsp;&nbsp;&nbsp;// loop through the results  
-&nbsp;&nbsp;&nbsp;for ($i = 0; $i &lt; count($result); $i++)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo "The user called ".urldecode($result[$i]['name'])." has the ID {$result[$i]['id']}";  
+  // loop through the results  
+  for ($i = 0; $i &lt; count($result); $i++)  
+    echo "The user called ".urldecode($result[$i]['name'])." has the ID {$result[$i]['id']}";  
 }
+```
 
 > [!TIP]
 > SELECT * is faster than SELECT field1, field2 because it executes less code. It does however return a bigger array, thus is less memory efficient.
@@ -142,51 +152,63 @@ if (count($result) > 0)
 **Return value: true or false (false means an error occured)**
 
 **Examples:**
-> DELETE FROM user  
+```
+DELETE FROM user  
 DELETE FROM user WHERE name != administrator  
 DELETE FROM user WHERE id &gt; 1 AND id &lt; 10  
 DELETE FROM user WHERE name = Bill OR name = Gates
+```
 
 **PHP example:**
-> $name = "Gates, Bill";  
+```
+$name = "Gates, Bill";  
 $name = urlencode($name);  
 $result = chaozzdb_query ("DELETE FROM user WHERE name != $name");
+```
 
 ## UPDATE (SET and [WHERE])
 *Return value: true or false (false means an error occured)*
 
 **Examples:**
-> UPDATE user SET name = bill, group_id = 2 WHERE id &gt; 1  
+```
+UPDATE user SET name = bill, group_id = 2 WHERE id &gt; 1  
 UPDATE user SET name = bill, group_id = 3 WHERE id &gt; 1 AND name = Hank  
 UPDATE user SET name = Bill Gates WHERE name = Bill OR name = Gates
+```
 
 **PHP example:**
-> $name = "Gates, Bill";  
+```
+$name = "Gates, Bill";  
 $name = urlencode($name);  
 $result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id &gt; 1");
+```
 
 ## INSERT (INTO and VALUES)
 ***Return value: ID of new record or 0 (0 means an error occured)*
 
 **examples:**
-> INSERT INTO user VALUES (chaozz, password123, 1)</pre>
+`INSERT INTO user VALUES (chaozz, password123, 1)`
 
 **PHP example:**
-> $name = urlencode('Gates, Bill');  
+```
+$name = urlencode('Gates, Bill');  
 $password = chaozzdb_password ($password);  
 $group_id = 1;  
 $result = chaozzdb_query ("INSERT INTO user VALUES $name, $password, $group_id");  
 echo "The ID of this new user is $result";
+```
 
 ## Error checking
 There is basic error checking in chaozzDB; it will check for the existence of database files, and if there are any records present, but it does not check for bad queries. Use the proper syntax as explained in this document.
 
-If you want to see the last error that was thrown by chaozzDB, check the variable *$chaozzdb_last_error*.
-If *$chaozzdb_last_error* is an empty string then the last query was succesful.
+If you want to see the last error that was thrown by chaozzDB, check the variable `$chaozzdb_last_error`.
+If `$chaozzdb_last_error` is an empty string then the last query was succesful.
 
 **Examples:**
-> if ($chaozzdb_last_error != "")  
+```
+if ($chaozzdb_last_error != "")  
 {  
-&nbsp;&nbsp;&nbsp;echo "An error occured: $chaozzdb_last_error");  
-&nbsp;&nbsp;&nbsp;// panic here  
+  echo "An error occured: $chaozzdb_last_error");  
+  // panic here  
 }
+```
