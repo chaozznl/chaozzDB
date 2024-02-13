@@ -123,7 +123,7 @@ echo "Driver 1 drives a ".urldecode($cars[0]['car']);
 ```
 
 ## SELECT (FROM, [WHERE], [ORDER BY] and [LIMIT])
-**Return value: multidimensional array or an empty array (empty array means an error occured)**
+*Return value: multidimensional array or an empty array (empty array means an error occured)*
 
 **Examples:**
 ```
@@ -149,7 +149,7 @@ if (count($result) > 0)
 > SELECT * is faster than SELECT field1, field2 because it executes less code. It does however return a bigger array, thus is less memory efficient.
 
 ## DELETE (FROM and [WHERE])
-**Return value: true or false (false means an error occured)**
+*Return value: true or false (false means an error occured)*
 
 **Examples:**
 ```
@@ -184,7 +184,7 @@ $result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id >
 ```
 
 ## INSERT (INTO and VALUES)
-***Return value: ID of new record or 0 (0 means an error occured)*
+*Return value: ID of new record or 0 (0 means an error occured)*
 
 **examples:**
 `INSERT INTO user VALUES (chaozz, password123, 1)`
