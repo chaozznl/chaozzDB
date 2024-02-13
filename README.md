@@ -26,9 +26,9 @@ You need to create the database folder (`$db_location`) and CHMOD it to 777.
 To create a table, you need to create a text file (extension must match *$db_extension*) in the database folder and CHMOD it to 666. The name of the textfile will be the table name.
 ```
 chaozzdb.php
-[database] &lt;-- chmod 777
-    user.tsv &lt;-- chmod 666
-    device.tsv &lt;-- chmod 666
+[database] <-- chmod 777
+    user.tsv <-- chmod 666
+    device.tsv <-- chmod 666
 ```
 
 Example table: `user.tsv`
@@ -70,7 +70,7 @@ Using this logic you can query like this:
 ```
 $user_result = chaozzdb_query ("SELECT * FROM user WHERE id = 4");  
 $record_count = count($user_result);  
-for ($a = 0; $a &lt; $record_count; $a++)  
+for ($a = 0; $a < $record_count; $a++)  
 {  
   $user_id = $user_result[$a]['id'];  
   $permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");  
@@ -82,8 +82,8 @@ for ($a = 0; $a &lt; $record_count; $a++)
 For comparing numeric values you can use:
 - `id = 1` *(SQL equivalent: id = 1)*
 - `id != 1` *(SQL equivalent: id != 1)*
-- `id &gt; 1` *(SQL equivalent: id &gt; 1)*
-- `id &lt;` 1 *(SQL equivalent: id &lt; 1)*
+- `id > 1` *(SQL equivalent: id > 1)*
+- `id <` 1 *(SQL equivalent: id < 1)*
 
 For comparing string values you can use:
 - `name = elmar` *(SQL equivalent: name = 'elmar')*
@@ -98,10 +98,10 @@ For comparing string values you can use:
 WHERE user_id = 10 // user_id equals 10  
 WHERE user_id !=10 // user_id does not equal 10  
 WHERE name ~= admin // name contains the word admin (best practice is to urlencode this value if it's not an integer)  
-WHERE user_id &lt; 10 // user_id is smaller then 10  
-WHERE user_id &gt; 10 // user_id is bigger then 10  
-WHERE user_id &lt; 10 AND name = admin // use the AND operator to combine conditions  
-WHERE user_id = 1 OR user_id = 5 OR user_id &gt; 10 // user the OR operator to combine conditions
+WHERE user_id < 10 // user_id is smaller then 10  
+WHERE user_id > 10 // user_id is bigger then 10  
+WHERE user_id < 10 AND name = admin // use the AND operator to combine conditions  
+WHERE user_id = 1 OR user_id = 5 OR user_id > 10 // user the OR operator to combine conditions
 ```
 
 ## Encoding and decoding data
@@ -128,9 +128,9 @@ echo "Driver 1 drives a ".urldecode($cars[0]['car']);
 **Examples:**
 ```
 SELECT * FROM user  
-SELECT id, name FROM user WHERE group_id &gt; 1  
+SELECT id, name FROM user WHERE group_id > 1  
 SELECT id FROM user WHERE name ~= admi ORDER BY name DESC LIMIT 1  
-SELECT id FROM user WHERE id &gt; 1 AND id &lt; 10  
+SELECT id FROM user WHERE id > 1 AND id < 10  
 SELECT id FROM user WHERE name = Bill OR name = Gates
 ```
 
@@ -140,7 +140,7 @@ $result = chaozzdb_query ("SELECT id, name FROM user WHERE group_id = 1");
 if (count($result) > 0)  
 {  
   // loop through the results  
-  for ($i = 0; $i &lt; count($result); $i++)  
+  for ($i = 0; $i < count($result); $i++)  
     echo "The user called ".urldecode($result[$i]['name'])." has the ID {$result[$i]['id']}";  
 }
 ```
@@ -155,7 +155,7 @@ if (count($result) > 0)
 ```
 DELETE FROM user  
 DELETE FROM user WHERE name != administrator  
-DELETE FROM user WHERE id &gt; 1 AND id &lt; 10  
+DELETE FROM user WHERE id > 1 AND id < 10  
 DELETE FROM user WHERE name = Bill OR name = Gates
 ```
 
@@ -171,8 +171,8 @@ $result = chaozzdb_query ("DELETE FROM user WHERE name != $name");
 
 **Examples:**
 ```
-UPDATE user SET name = bill, group_id = 2 WHERE id &gt; 1  
-UPDATE user SET name = bill, group_id = 3 WHERE id &gt; 1 AND name = Hank  
+UPDATE user SET name = bill, group_id = 2 WHERE id > 1  
+UPDATE user SET name = bill, group_id = 3 WHERE id > 1 AND name = Hank  
 UPDATE user SET name = Bill Gates WHERE name = Bill OR name = Gates
 ```
 
@@ -180,7 +180,7 @@ UPDATE user SET name = Bill Gates WHERE name = Bill OR name = Gates
 ```
 $name = "Gates, Bill";  
 $name = urlencode($name);  
-$result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id &gt; 1");
+$result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id > 1");
 ```
 
 ## INSERT (INTO and VALUES)
