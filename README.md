@@ -95,7 +95,7 @@ For comparing string values you can use:
 
 **Examples:**
 ```
- WHERE user_id = 10 // user_id equals 10  
+WHERE user_id = 10 // user_id equals 10  
 WHERE user_id !=10 // user_id does not equal 10  
 WHERE name ~= admin // name contains the word admin (best practice is to urlencode this value if it's not an integer)  
 WHERE user_id &lt; 10 // user_id is smaller then 10  
