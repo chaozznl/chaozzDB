@@ -4,7 +4,7 @@
  An easy-to-use flatfile nomysql database system for PHP.
 
 ## Install and config
-Place chaozzDB.php in a folder of your project. chaozzDB.php contains the following settings you can change:
+Place `chaozzDB.php` in a folder of your project. chaozzDB.php contains the following settings you can change:
 
 - **$chaozzdb_delimiter = "\t";**  
 By default the delimiter is a TAB (\t).
@@ -12,33 +12,34 @@ By default the delimiter is a TAB (\t).
 This is the folder that holds your database files, relative to the script you include chaozzDB in.
 For APACHE users there is a .htaccess file in the DB folder that prevents direct access to the database files.*
 IIS users read (https://docs.microsoft.com/en-us/iis/manage/configuring-security/use-request-filtering)
-- **$chaozzdb_extension = ".tsv";**  
+- `$chaozzdb_extension = ".tsv";`  
 This is the default file extention for the database files.
-- **$chaozzdb_salt = "some random string";**  
+- `$chaozzdb_salt = "some random string";`
 This salt is used by chaozzdb_password();. You must change this to a random string of your own.
-- **$chaozzdb_max_records = 999;**  
+- `$chaozzdb_max_records = 999;`  
 Here you set the maximum number of records a SELECT-query will return.
-- **$chaozzdb_last_error = "";**  
-After running a query with *chaozzdb_query();*, you should check if *$chaozz_db_last_error == ""*. If it's not, it contains the error description as a string.
+- `$chaozzdb_last_error = "";`  
+After running a query with `chaozzdb_query();`, you should check if `$chaozz_db_last_error == ""`. If it's not, it contains the error description as a string.
 
 ## Setting up your database
-You need to create the database folder (*$db_location*) and CHMOD it to 777.
+You need to create the database folder (`$db_location`) and CHMOD it to 777.
 To create a table, you need to create a text file (extension must match *$db_extension*) in the database folder and CHMOD it to 666. The name of the textfile will be the table name.
-> chaozzdb.php
+```
+chaozzdb.php
 [database] &lt;-- chmod 777
     user.tsv &lt;-- chmod 666
     device.tsv &lt;-- chmod 666
+```
 
-Example table: *user.tsv*
-The first line of a table will define the table fields, seperated by the delimiter (*$chaozzdb_delimiter*).
+Example table: `user.tsv`
+The first line of a table will define the table fields, seperated by the delimiter (`$chaozzdb_delimiter`).
 
 Here are the requirements for a table:
 
 - The first field ****must**** always be 'id'
 - The cursor ****must**** always be on a new empty line (so press ENTER↵ after you entered that first line)
-- The field names should be **lowercase and alphanumeric (underscore is allowed)**: id, name, group_id, field9, etc
-- Field names can **not contain** these words in uppercase:
-SELECT, FROM, WHERE, DELETE, UPDATE, VALUES, INSERT
+- The field names should be **lowercase and alphanumeric (underscore is allowed)**: `id, name, group_id, field9, etc`
+- Field names can **not contain** these words in uppercase: `SELECT, FROM, WHERE, DELETE, UPDATE, VALUES, INSERT`
 
 So for a user table you could create the following fields:
 > id&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;password&nbsp;&nbsp;&nbsp;email&nbsp;&nbsp;&nbsp;group_id
@@ -48,25 +49,26 @@ Now save the file, and you're done.
 
 ## PHP usage
 To use the database in PHP add this line to the page you want to use it on:
-> require_once("./chaozzDB.php");
+`require_once("./chaozzDB.php");`
 
 ## Functions
-- **chaozzdb_password();**  
+- `chaozzdb_password();`  
 You can use this to salt passwords before storing them into chaozzdb.
-> $password = chaozzdb_password('ThisIsMyPassword123');
-- **chaozzdb_error();**  
+`$password = chaozzdb_password('ThisIsMyPassword123');`
+- `chaozzdb_error();`  
 Used internally by chaozzdb_query();
-- **chaozzdb_query();**  
+- `chaozzdb_query();`  
 chaozzDB uses a barebones version of SQL. Its syntax is explained below.
 
 ## Table relations
-chaozzdb_query(); does not support *LEFT JOIN*, *RIGHT JOIN* or *INNER JOIN*.
+`chaozzdb_query();` does not support *LEFT JOIN*, *RIGHT JOIN* or *INNER JOIN*.
 If tables have a relation, there should be a field in one of the tables to emphasize that relation.
 
-**For example:** You have a table named *user*, and you have a second table that has one or several records related to a user, named *permissions*. The table permissions should then have a field called *user_id*.
+**For example:** You have a table named *user*, and you have a second table that has one or several records related to a user, named *permissions*. The table permissions should then have a field called `user_id`.
 
 Using this logic you can query like this:
-> $user_result = chaozzdb_query ("SELECT * FROM user WHERE id = 4");  
+```
+$user_result = chaozzdb_query ("SELECT * FROM user WHERE id = 4");  
 $record_count = count($user_result);  
 for ($a = 0; $a &lt; $record_count; $a++)  
 {  
@@ -74,6 +76,7 @@ for ($a = 0; $a &lt; $record_count; $a++)
 &nbsp;&nbsp;&nbsp;$permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");  
 &nbsp;&nbsp;&nbsp;echo "Is this user and admin? {$permissions_result[0]['isadmin']}");  
 }  
+```
 
 ## "WHERE" limitations
 For comparing numeric values you can use:
