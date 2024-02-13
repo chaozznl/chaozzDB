@@ -80,15 +80,15 @@ for ($a = 0; $a &lt; $record_count; $a++)
 
 ## "WHERE" limitations
 For comparing numeric values you can use:
-- `id = 1` *(SQL: id = 1)*
-- `id != 1` *(SQL: id != 1)*
-- `id &gt; 1` *(SQL: id &gt; 1)*
-- `id &lt;` 1 *(SQL: id &lt; 1)*
+- `id = 1` *(SQL equivalent: id = 1)*
+- `id != 1` *(SQL equivalent: id != 1)*
+- `id &gt; 1` *(SQL equivalent: id &gt; 1)*
+- `id &lt;` 1 *(SQL equivalent: id &lt; 1)*
 
 For comparing string values you can use:
-- `name = elmar` *(SQL: name = 'elmar')*
-- `name != elmar` *(SQL: name != 'elmar')*
-- `name ~= lma` *(SQL: name LIKE '%lma%')*
+- `name = elmar` *(SQL equivalent: name = 'elmar')*
+- `name != elmar` *(SQL equivalent: name != 'elmar')*
+- `name ~= lma` *(SQL equivalent: name LIKE '%lma%')*
 
 > [!TIP]
 > A limitation is that the WHERE part of queries only supports *either* the AND-operator or the OR-operator. They can not be mixed. Nor does it respect any left or right parenthesis.
