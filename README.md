@@ -113,7 +113,7 @@ For every other value, use: `urlencode();` for writing or use `urldecode();` fo
 **Write example:**
 ```
 $car = urlencode("Mercedes, convertible"); // this comma would mess up the Query if we didn't encode it  
-$result = chaozzdb_query ("UPDATE driver SET car = $car WHERE id = 1");</pre>
+$result = chaozzdb_query ("UPDATE driver SET car = $car WHERE id = 1");
 ```
 
 **Read example:**
