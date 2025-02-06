@@ -67,8 +67,7 @@ If tables have a relation, there should be a field in one of the tables to empha
 **For example:** You have a table named *user*, and you have a second table that has one or several records related to a user, named *permissions*. The table permissions should then have a field called `user_id`.
 
 Using this logic you can query like this:
-```
-<?php
+```php
 $user_result = chaozzdb_query ("SELECT * FROM user WHERE id = 4");  
 $record_count = count($user_result);  
 for ($a = 0; $a < $record_count; $a++)  
@@ -77,7 +76,6 @@ for ($a = 0; $a < $record_count; $a++)
   $permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");  
   echo "Is this user and admin? {$permissions_result[0]['isadmin']}");  
 }
-?>
 ```
 
 ## "WHERE" limitations
@@ -113,13 +111,13 @@ For writing or reading Integers, use: `intval();`
 For every other value, use: `urlencode();` for writing or use `urldecode();` for reading.
 
 **Write example:**
-```
+```php
 $car = urlencode("Mercedes, convertible"); // this comma would mess up the Query if we didn't encode it  
 $result = chaozzdb_query ("UPDATE driver SET car = $car WHERE id = 1");
 ```
 
 **Read example:**
-```
+```php
 $cars = chaozzdb_query ("SELECT * FROM driver WHERE id = 1");  
 echo "Driver 1 drives a ".urldecode($cars[0]['car']);
 ```
@@ -128,7 +126,7 @@ echo "Driver 1 drives a ".urldecode($cars[0]['car']);
 *Return value: multidimensional array or an empty array (empty array means an error occured)*
 
 **Examples:**
-```
+```php
 SELECT * FROM user  
 SELECT id, name FROM user WHERE group_id > 1  
 SELECT id FROM user WHERE name ~= admi ORDER BY name DESC LIMIT 1  
@@ -137,7 +135,7 @@ SELECT id FROM user WHERE name = Bill OR name = Gates
 ```
 
 **PHP example:**
-```
+```php
 $result = chaozzdb_query ("SELECT id, name FROM user WHERE group_id = 1");  
 if (count($result) > 0)  
 {  
@@ -154,7 +152,7 @@ if (count($result) > 0)
 *Return value: true or false (false means an error occured)*
 
 **Examples:**
-```
+```php
 DELETE FROM user  
 DELETE FROM user WHERE name != administrator  
 DELETE FROM user WHERE id > 1 AND id < 10  
@@ -162,7 +160,7 @@ DELETE FROM user WHERE name = Bill OR name = Gates
 ```
 
 **PHP example:**
-```
+```php
 $name = "Gates, Bill";  
 $name = urlencode($name);  
 $result = chaozzdb_query ("DELETE FROM user WHERE name != $name");
@@ -172,14 +170,14 @@ $result = chaozzdb_query ("DELETE FROM user WHERE name != $name");
 *Return value: true or false (false means an error occured)*
 
 **Examples:**
-```
+```php
 UPDATE user SET name = bill, group_id = 2 WHERE id > 1  
 UPDATE user SET name = bill, group_id = 3 WHERE id > 1 AND name = Hank  
 UPDATE user SET name = Bill Gates WHERE name = Bill OR name = Gates
 ```
 
 **PHP example:**
-```
+```php
 $name = "Gates, Bill";  
 $name = urlencode($name);  
 $result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id > 1");
@@ -192,7 +190,7 @@ $result = chaozzdb_query ("UPDATE user SET name = $name, group_id = 2 WHERE id >
 `INSERT INTO user VALUES (chaozz, password123, 1)`
 
 **PHP example:**
-```
+```php
 $name = urlencode('Gates, Bill');  
 $password = chaozzdb_password ($password);  
 $group_id = 1;  
@@ -207,7 +205,7 @@ If you want to see the last error that was thrown by chaozzDB, check the variabl
 If `$chaozzdb_last_error` is an empty string then the last query was succesful.
 
 **Examples:**
-```
+```php
 if ($chaozzdb_last_error != "")  
 {  
   echo "An error occured: $chaozzdb_last_error");  
