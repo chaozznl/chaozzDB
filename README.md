@@ -68,6 +68,7 @@ If tables have a relation, there should be a field in one of the tables to empha
 
 Using this logic you can query like this:
 ```
+<?php
 $user_result = chaozzdb_query ("SELECT * FROM user WHERE id = 4");  
 $record_count = count($user_result);  
 for ($a = 0; $a < $record_count; $a++)  
@@ -75,7 +76,8 @@ for ($a = 0; $a < $record_count; $a++)
   $user_id = $user_result[$a]['id'];  
   $permissions_result = chaozzdb_query ("SELECT id, isadmin FROM permissions WHERE user_id = $user_id");  
   echo "Is this user and admin? {$permissions_result[0]['isadmin']}");  
-}  
+}
+?>
 ```
 
 ## "WHERE" limitations
